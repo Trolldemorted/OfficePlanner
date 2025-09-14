@@ -402,3 +402,4 @@ FodyWeavers.xsd
 /OfficePlanner/wwwroot/floors
 appsettings.Development.json
 /docker-compose.yml
+/appsettings.json
