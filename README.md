@@ -29,6 +29,7 @@ services:
     restart: unless-stopped
     volumes:
       - "./appsettings.json:/app/appsettings.json:ro"
+      - "./data/officeplanner:/root/.aspnet"
     ports:
       - "8080:8080"
   postgres:
@@ -38,7 +39,7 @@ services:
       POSTGRES_USER: docker
       POSTGRES_PASSWORD: docker
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
     shm_size: 512MB
 ```
 - `docker compose up -d`
