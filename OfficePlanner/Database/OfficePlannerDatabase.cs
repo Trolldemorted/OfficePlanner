@@ -158,7 +158,7 @@ public class OfficePlannerDatabase(OPDbContext dbContext, ILogger<OfficePlannerD
             .ThenInclude(e => e.Reservations)
             .ThenInclude(e => e.User)
             .Include(e => e.Building)
-            .ThenInclude(e => e.Location)
+            .ThenInclude(e => e!.Location)
             .AsNoTracking()
             .SingleOrDefaultAsync(token);
     }
