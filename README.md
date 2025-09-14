@@ -43,3 +43,14 @@ services:
     shm_size: 512MB
 ```
 - `docker compose up -d`
+- Login once through OIDC to create a user
+- Visit `/swagger` to promote your user to admin
+
+## Floor Plans
+OfficePlanner creates rooms and desks from floor plans automatically when an admin uploads a floor plan svg.
+To declare a desk in a room, add the `data-op-desk` and `data-op-room` attributes with the respective names to a `rect`.
+The svg is rendered in-tree, so exports from program's like Inkscape might need minor adjustments to remove xml namespace declarations.
+
+## Security
+The floor plan svgs are rendered in-tree.
+Do not upload floor plans from untrusted sources.
