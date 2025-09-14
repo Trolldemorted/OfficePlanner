@@ -81,8 +81,7 @@ public class Program
         });
 
         var app = builder.Build();
-        app.UseDefaultFiles("/_static");
-        app.UseStaticFiles("/_static");
+        app.UseStaticFiles();
         app.UseSwagger();
         app.UseSwaggerUI();
         if (app.Environment.IsProduction())

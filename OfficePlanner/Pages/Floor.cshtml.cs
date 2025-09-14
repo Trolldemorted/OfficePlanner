@@ -156,7 +156,7 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
     public async Task<FloorViewModel> GetViewModel(DateOnly? day = null, bool? isAdmin = false)
     {
         long userId = 0;
-        DateOnly setDay = day ?? DateOnly.FromDateTime(DateTime.Now);
+        DateOnly setDay = day ?? DateOnly.FromDateTime(DateTime.Now).GetFirstWorkingDay();
         var floor = await db.GetFloor(this.Location, this.Building, this.Floor, this.HttpContext.RequestAborted);
         string? floorPlan = null;
         if (floor != null && Util.GetUserId(this.HttpContext) is long sessionUserId)

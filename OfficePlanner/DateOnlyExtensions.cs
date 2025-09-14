@@ -23,4 +23,14 @@ public static class DateOnlyExtensions
         }
         return previousDay;
     }
+
+    public static DateOnly GetFirstWorkingDay(this DateOnly day)
+    {
+        var nextDay = day;
+        while (nextDay.DayOfWeek == DayOfWeek.Saturday || nextDay.DayOfWeek == DayOfWeek.Sunday)
+        {
+            nextDay = nextDay.AddDays(1);
+        }
+        return nextDay;
+    }
 }
