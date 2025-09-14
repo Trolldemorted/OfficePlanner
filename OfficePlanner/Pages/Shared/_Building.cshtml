@@ -1,0 +1,76 @@
+﻿@model OfficePlanner.ViewModels.BuildingViewModel
+
+<section class="py-2">
+    <div class="container px-4 px-lg-5 mt-5">
+        @if (Model.Building != null)
+        {
+            <h1>@Model.Building.Name</h1>
+            @if (Model.IsAdmin)
+            {
+                <button hx-post="@Url.Page("Location", "DeleteBuilding", new { Location=Model.LocationLowercaseName, Building=Model.Building!.LowercaseName })"
+                    hx-target="#main"
+                    hx-replace-url="@Url.Page("Location", new { Location=Model.LocationLowercaseName })">
+                    Delete Building
+                </button>
+                <br />
+            }
+
+            <h2>Floors</h2>
+            @foreach (var floor in Model.Building.Floors)
+            {
+                <a hx-get="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.Building.LowercaseName, Floor=floor.LowercaseName })"
+                   href="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.Building.LowercaseName, Floor=floor.LowercaseName })"
+                   hx-target="#main"
+                   hx-push-url="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.Building.LowercaseName, Floor=floor.LowercaseName })">
+                    Floor @floor.Name
+                </a>
+                <br />
+            }
+
+            @if (Model.IsAdmin)
+            {
+                <div class="card">
+                    <div class="card-header">
+                    <h3>Upsert Floor</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="section">
+                            <form data-hx-encoding='multipart/form-data' data-hx-post="@Url.Page("Building", "UpsertFloor", new {
+                                Location=Model.LocationLowercaseName,
+                                Building=Model.Building.LowercaseName,
+                            })"
+                                  hx-target="#main"
+                                  class="form-horizontal needs-validation"
+                                  _="on htmx:beforeSend set #submitButton.disabled to 'disabled'">
+
+                                <div class="mb-3">
+                                    <label class="form-label">Floor:</label>
+                                    <input class="form-control" autocomplete="off" name="Name">
+                                    <div class="invalid-feedback">
+                                    </div>
+
+                                    <label class="form-label">Plan:</label>
+                                    <input class="form-control" type="file" autocomplete="off" name="FloorPlanFile">
+                                </div>
+
+                                <div class="control">
+                                    <button id="submitButton" type="submit" class="btn btn-primary">
+                                        <span class="htmx-indicator">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Loading...</span>
+                                        </span>
+                                        Create
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <span>404</span>
+        }
+    </div>
+</section>

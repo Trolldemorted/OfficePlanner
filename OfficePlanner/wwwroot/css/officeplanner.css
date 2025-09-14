@@ -1,0 +1,47 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#main {
+    flex: 1;
+}
+
+
+.op-desktable {
+    caption-side: top;
+}
+
+    .op-desktable td {
+        border: 1px solid;
+        max-width: 50px;
+    }
+
+.op-floor {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-direction: row-reverse;
+}
+
+    .op-floor svg {
+        min-width: 25%;
+    }
+
+.op-highlight {
+    background: rgba(0, 200, 255, 0.4);
+}
+
+.op-available {
+    background-color: #D3D3D3;
+}
+
+.op-unavailable {
+    background-color: orange;
+}
+
+.op-reserved {
+    background-color: #90EE90;
+}

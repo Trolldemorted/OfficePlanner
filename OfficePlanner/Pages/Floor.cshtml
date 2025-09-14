@@ -1,0 +1,4 @@
+﻿@page "/{Location}/{Building}/{Floor}"
+@model OfficePlanner.Pages.FloorModel
+
+@await Html.PartialAsync("_Floor", await Model.GetViewModel())

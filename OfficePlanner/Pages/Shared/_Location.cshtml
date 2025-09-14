@@ -1,0 +1,79 @@
+﻿@model OfficePlanner.ViewModels.LocationViewModel
+@{
+    string NewBuildingInputClass = "form-control";
+    if (Model.NewBuildingNameError != null)
+    {
+        NewBuildingInputClass += " is-invalid";
+    }
+}
+
+<section class="py-2">
+    <div class="container px-4 px-lg-5 mt-5">
+        @if (Model.Location != null)
+        {
+            <h1>@Model.Location.Name</h1>
+            @if (Model.IsAdmin)
+            {
+                <button data-hx-post="@Url.Page("Index", "DeleteLocation", new { LocationName = Model.Location.LowercaseName })"
+                        data-hx-target="#main"
+                        data-hx-replace-url="@Url.Page("Index")">
+                    Delete Location
+                </button>
+                    <br />
+            }
+
+            <h2>Buildings</h2>
+            @foreach (var building in Model.Location.Buildings!)
+            {
+                <a hx-get="@Url.Page("Building", new { Location = Model.Location.LowercaseName, Building = building.LowercaseName })"
+                   href="@Url.Page("Building", new { Location = Model.Location.LowercaseName, Building = building.LowercaseName })"
+                   hx-target="#main"
+                   hx-push-url="true">
+                    @building.Name
+                </a>
+                <br />
+            }
+
+            @if (Model.IsAdmin)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Create Building</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="section">
+                            <form hx-post="@Url.Page("Location", "CreateBuilding", new { NewBuildingName=Model.NewBuildingName })"
+                                  hx-target="#main"
+                                  class="form-horizontal needs-validation"
+                                  _="on htmx:beforeSend set #submitButton.disabled to 'disabled'">
+
+                                <div class="mb-3">
+                                    <label class="form-label">Name:</label>
+                                    <input type="text" class="@NewBuildingInputClass" autocomplete="off" value="@Model.NewBuildingName" name="NewBuildingName">
+                                    <div class="invalid-feedback">
+                                        <span a>@Model.NewBuildingNameError</span>
+                                    </div>
+                                </div>
+
+                                <div class="control">
+                                    <button id="submitButton" type="submit" class="btn btn-primary">
+                                        <span class="htmx-indicator">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Loading...</span>
+                                        </span>
+                                        Create
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <span>404</span>
+        }
+    </div>
+</section>

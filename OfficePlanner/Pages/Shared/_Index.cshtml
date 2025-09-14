@@ -1,0 +1,74 @@
+﻿@model OfficePlanner.ViewModels.IndexViewModel
+@{
+    string NewLocationInputClass = "form-control";
+    if (Model.NewLocationNameError != null)
+    {
+        NewLocationInputClass += " is-invalid";
+    }
+}
+
+<header class="bg-dark jetbrains py-2">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Office Planner</h1>
+            <p class="lead fw-normal mb-0">
+                Book desks, quickly.
+            </p>
+        </div>
+    </div>
+</header>
+
+<section class="py-2">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div id="locations">
+            <h2>Locations</h2>
+            @foreach (var item in Model.Locations)
+            {
+                <a hx-get="@Url.Page("Location", new { Location = item.Name })"
+                   href="@Url.Page("Location", new { Location = item.Name })"
+                   hx-target="#main"
+                   hx-push-url="true">
+                    @item.Name
+                </a>
+                <br />
+            }
+        </div>
+
+        @if (Model.IsAdmin)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h3>Create Location</h3>
+                </div>
+
+                <div class="card-body">
+                    <div class="section">
+                        <form data-hx-post="@Url.Page("Index", "NewLocation")"
+                              data-hx-target="#main"
+                              class="form-horizontal needs-validation"
+                              _="on htmx:beforeSend set #submitButton.disabled to 'disabled'">
+
+                            <div class="mb-3">
+                                <label class="form-label">Name:</label>
+                                <input type="text" class="@NewLocationInputClass" autocomplete="off" value="@Model.NewLocationName" name="NewLocationName">
+                                <div class="invalid-feedback">
+                                    <span a>@Model.NewLocationNameError</span>
+                                </div>
+                            </div>
+
+                            <div class="control">
+                                <button id="submitButton" type="submit" class="btn btn-primary">
+                                    <span class="htmx-indicator">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Loading...</span>
+                                    </span>
+                                    Create
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

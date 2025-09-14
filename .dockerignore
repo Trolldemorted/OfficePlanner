@@ -1,0 +1,16 @@
+/.config
+.dockerignore
+.env
+.git
+.gitignore
+.vs
+.vscode
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml
+*/bin
+*/obj
+/README.md
+/data
+/data_keycloak
+/OfficePlanner/wwwroot/floors

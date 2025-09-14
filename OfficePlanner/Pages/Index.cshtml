@@ -1,0 +1,4 @@
+﻿@page "/"
+@model OfficePlanner.Pages.IndexModel
+
+@await Html.PartialAsync("_Index", await Model.GetViewModel());

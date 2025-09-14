@@ -1,0 +1,126 @@
+﻿@using System.Xml.Linq
+@model OfficePlanner.ViewModels.FloorViewModel
+@{
+    var today = DateOnly.FromDateTime(DateTime.Now);
+}
+
+<section class="py-2">
+    @if (Model.Floor is not null)
+    {
+        <h1>Floor @Model.Floor.Name</h1>
+        <div class="op-floor">
+            <div>
+                <div style="display: flex; justify-content: center">
+                    <a data-hx-get="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.BuildingLowercaseName, Floor=Model.Floor.LowercaseName, Day=Model.Day.GetPreviousWorkingDay()})"
+                        href="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.BuildingLowercaseName, Floor=Model.Floor.LowercaseName, Day=Model.Day.GetPreviousWorkingDay() })"
+                        data-hx-target="#main">
+                        -
+                    </a>
+                    <input type="date" readonly value="@Model.Day.ToString("yyyy-MM-dd")">
+                    <a data-hx-get="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.BuildingLowercaseName, Floor=Model.Floor.LowercaseName, Day=Model.Day.GetNextWorkingDay() })"
+                       href="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.BuildingLowercaseName, Floor=Model.Floor.LowercaseName, Day=Model.Day.GetNextWorkingDay() })"
+                       data-hx-target="#main">
+                        +
+                    </a>
+                    <br>
+                </div>
+                @if (Model.FloorPlan is not null)
+                {
+                    @Html.Raw(Model.FloorPlan)
+                }
+            </div>
+            <div class="op-floor-tables">
+                @foreach (var room in Model.Floor!.Rooms.OrderBy(e => e.LowercaseName))
+                {
+                    <table class="op-desktable">
+                        <caption>@room.Name</caption>
+                        <colgroup>
+                            <col>
+                            @for (int i = 0; i < 14; i++)
+                            {
+                                var day = today.AddDays(i);
+                                if (day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday)
+                                {
+                                    continue;
+                                }
+                                if (day == Model.Day)
+                                {
+                                    <col class="op-highlight">
+                                }
+                                else
+                                {
+                                    <col>
+                                }
+                            }
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <td>Desk</td>
+                                @for (int i = 0; i < 14; i++)
+                                {
+                                    var day = today.AddDays(i);
+                                    if (day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday)
+                                    {
+                                        continue;
+                                    }
+                                    <td>@day.ToString("d/M")</td>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var desk in room.Desks.OrderBy(e => e.LowercaseName))
+                            {
+                                <tr>
+                                    <td>@desk.Name</td>
+                                    @for (int i = 0; i < 14; i++)
+                                    {
+                                        var day = today.AddDays(i);
+                                        if (day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday)
+                                        {
+                                            continue;
+                                        }
+                                        var reservation = desk.Reservations.Where(e => e.Day == today.AddDays(i)).FirstOrDefault();
+                                        @if (reservation != null && reservation.UserId == Model.UserId)
+                                        {
+                                            <td class="op-reserved"
+                                            title="@reservation.User!.Name"
+                                            data-hx-target="#main"
+                                                data-hx-post="@Url.Page("Floor", "FreeDesk", new {
+                                                    Model.LocationLowercaseName,
+                                                    Building=Model.BuildingLowercaseName,
+                                                    Level=Model.Floor,
+                                                    Day=Model.Day,
+                                                    ReservationDay=today.AddDays(i),
+                                                    Room=room.LowercaseName,
+                                                    Desk=desk.LowercaseName,
+                                                })"></td>
+                                        }
+                                        else if (reservation != null)
+                                        {
+                                            <td class="op-unavailable"
+                                                title="@reservation.User!.Name"></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="op-available"
+                                                data-hx-target="#main"
+                                                data-hx-post="@Url.Page("Floor", "BookDesk", new {
+                                                    Model.LocationLowercaseName,
+                                                    Building=Model.BuildingLowercaseName,
+                                                    Level=Model.Floor,
+                                                    Day=Model.Day,
+                                                    ReservationDay=today.AddDays(i),
+                                                    Room=room.LowercaseName,
+                                                    Desk=desk.LowercaseName,
+                                                })"></td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    }
+</section>

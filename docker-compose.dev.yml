@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+    ports:
+    - "127.0.0.1:5432:5432"
+    volumes:
+    - ./data:/var/lib/postgresql/data
+    shm_size: 512MB
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    environment:
+    - KEYCLOAK_ADMIN=admin
+    - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+    - "127.0.0.1:8000:8080"
+    volumes:
+    - ./data_keycloak:/opt/keycloak/data/h2/
+    command: start-dev
