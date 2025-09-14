@@ -94,13 +94,12 @@
                                         @if (reservation != null && reservation.UserId == Model.UserId)
                                         {
                                             <td class="op-reserved"
-                                            title="@reservation.User!.Name"
-                                            data-hx-target="#main"
+                                                title="@reservation.User!.Name"
+                                                data-hx-target="#main"
                                                 data-hx-post="@Url.Page("Floor", "FreeDesk", new {
-                                                    Model.LocationLowercaseName,
+                                                    Location=Model.LocationLowercaseName,
                                                     Building=Model.BuildingLowercaseName,
-                                                    Level=Model.Floor,
-                                                    Day=Model.Day,
+                                                    Floor=Model.Floor.LowercaseName,
                                                     ReservationDay=today.AddDays(i),
                                                     Room=room.LowercaseName,
                                                     Desk=desk.LowercaseName,
@@ -116,10 +115,9 @@
                                             <td class="op-available"
                                                 data-hx-target="#main"
                                                 data-hx-post="@Url.Page("Floor", "BookDesk", new {
-                                                    Model.LocationLowercaseName,
+                                                    Location=Model.LocationLowercaseName,
                                                     Building=Model.BuildingLowercaseName,
-                                                    Level=Model.Floor,
-                                                    Day=Model.Day,
+                                                    Floor=Model.Floor.LowercaseName,
                                                     ReservationDay=today.AddDays(i),
                                                     Room=room.LowercaseName,
                                                     Desk=desk.LowercaseName,

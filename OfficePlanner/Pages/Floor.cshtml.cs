@@ -118,7 +118,6 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
                             this.Location,
                             this.Building,
                             this.Floor,
-                            day,
                             ReservationDay = day,
                             Room = room,
                             Desk = desk,
