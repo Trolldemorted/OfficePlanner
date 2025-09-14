@@ -1,4 +1,4 @@
-﻿@page "/{Location}/{Building}"
+﻿@page "/plan/{Location}/{Building}/"
 @model OfficePlanner.Pages.BuildingModel
 
 @await Html.PartialAsync("_Building", await Model.GetViewModel())
