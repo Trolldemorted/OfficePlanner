@@ -16,3 +16,5 @@ docker-compose.*.yml
 /data_keycloak
 /OfficePlanner/wwwroot/floors
 /appsettings.json
+compose.yml
+compose.*.yml

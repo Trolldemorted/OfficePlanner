@@ -1,6 +1,6 @@
 # Office Planner
 
-## Deployment
+## Deployment (Docker)
 - Register a new OIDC client app, setting the direct URI to `/signin-oidc`
 - Create `appsettings.json`
 ```json
