@@ -98,7 +98,8 @@ public class BuildingModel(OfficePlannerDatabase db, ILogger<BuildingModel> logg
         {
             IsAdmin = isAdmin ?? await db.IsUserAdmin(this.HttpContext),
             Building = building,
-            LocationLowercaseName = this.Location
+            LocationLowercaseName = this.Location,
+            LocationName = building?.Location?.Name,
         };
     }
 }

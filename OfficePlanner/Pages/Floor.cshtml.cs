@@ -174,6 +174,8 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
             FloorPlan = floorPlan,
             LocationLowercaseName = this.Location,
             UserId = userId,
+            BuildingName = floor?.Building?.Name,
+            LocationName = floor?.Building?.Location?.Name,
         };
     }
 }

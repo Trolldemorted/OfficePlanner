@@ -7,7 +7,18 @@
 <section class="py-2">
     @if (Model.Floor is not null)
     {
-        <h1>Floor @Model.Floor.Name</h1>
+        <h1>
+            <a hx-get="@Url.Page("Location", new { Location = Model.LocationLowercaseName })"
+                   href="@Url.Page("Location", new { Location = Model.LocationLowercaseName })"
+                   hx-target="#main"
+                   hx-push-url="true">@Model.LocationName</a>
+            >
+            <a hx-get="@Url.Page("Building", new { Location = Model.LocationLowercaseName, Building = Model.BuildingLowercaseName })"
+                   href="@Url.Page("Building", new { Location = Model.LocationLowercaseName, Building = Model.BuildingLowercaseName })"
+                   hx-target="#main"
+                   hx-push-url="true">@Model.BuildingName</a>
+            > Floor @Model.Floor.Name
+        </h1>
         <div class="op-floor">
             <div>
                 <div style="display: flex; justify-content: center">

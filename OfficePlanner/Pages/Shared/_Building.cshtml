@@ -4,7 +4,14 @@
     <div class="container px-4 px-lg-5 mt-5">
         @if (Model.Building != null)
         {
-            <h1>@Model.Building.Name</h1>
+            <h1>
+                <a hx-get="@Url.Page("Location", new { Location = Model.LocationLowercaseName })"
+                   href="@Url.Page("Location", new { Location = Model.LocationLowercaseName })"
+                   hx-target="#main"
+                   hx-push-url="true">@Model.LocationName</a>
+                >
+                @Model.Building.Name
+            </h1>
             @if (Model.IsAdmin)
             {
                 <button hx-post="@Url.Page("Location", "DeleteBuilding", new { Location=Model.LocationLowercaseName, Building=Model.Building!.LowercaseName })"

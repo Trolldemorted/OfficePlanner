@@ -76,6 +76,7 @@ public class OfficePlannerDatabase(OPDbContext dbContext, ILogger<OfficePlannerD
             .Where(e => e.LowercaseName == building)
             .Where(e => e.Location!.LowercaseName == location)
             .Include(e => e.Floors.OrderBy(e => e.Name))
+            .Include(e => e.Location)
             .AsNoTracking()
             .SingleOrDefaultAsync(token);
     }
@@ -156,6 +157,8 @@ public class OfficePlannerDatabase(OPDbContext dbContext, ILogger<OfficePlannerD
             .ThenInclude(e => e.Desks)
             .ThenInclude(e => e.Reservations)
             .ThenInclude(e => e.User)
+            .Include(e => e.Building)
+            .ThenInclude(e => e.Location)
             .AsNoTracking()
             .SingleOrDefaultAsync(token);
     }

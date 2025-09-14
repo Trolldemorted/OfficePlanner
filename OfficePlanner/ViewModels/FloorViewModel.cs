@@ -9,6 +9,8 @@ public record FloorViewModel
     public required string LocationLowercaseName { get; set; }
     public required string BuildingLowercaseName { get; set; }
     public required DateOnly Day { get; set; }
-    public required Floor? Floor {  get; set; }
+    public required Floor? Floor { get; set; }
     public required string? FloorPlan { get; set; }
+    public required string? LocationName { get; set; }
+    public required string? BuildingName { get; set; }
 }

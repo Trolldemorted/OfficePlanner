@@ -68,8 +68,7 @@ public class Program
             });
         builder.Services.AddControllers();
         builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-        builder.Services.AddRazorPages(o =>
-            o.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute()));
+        builder.Services.AddRazorPages();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddDbContext<OPDbContext>(options => options.UseNpgsql(config.ConnectionString));
