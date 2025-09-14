@@ -4,6 +4,10 @@ body {
     flex-direction: column;
 }
 
+#main {
+    flex: 1;
+}
+
 .op-desktable {
     caption-side: top;
 }
