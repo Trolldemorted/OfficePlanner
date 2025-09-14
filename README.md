@@ -1,8 +1,9 @@
 # Office Planner
 
 ## Deployment
-- Create `appsettings.json`:
-```
+- Register a new OIDC client app, setting the direct URI to `/signin-oidc`
+- Create `appsettings.json`
+```json
 {
   "Logging": {
     "LogLevel": {
@@ -12,15 +13,15 @@
     }
   },
   "OIDC": {
-    "Authority": "TODO",
-    "ClientId": "TODO",
-    "ClientSecret": "TODO"
+    "Authority": TODO,
+    "ClientId": TODO,
+    "ClientSecret": TODO
   },
   "DbConnectionString": "Host=postgres;Database=OfficePlanner;Username=docker;Password=docker",
-  "AdminPassword": "TODO"
+  "AdminPassword": TODO
 }
 ```
-- Create `compose.yml`:
+- Create `compose.yml`
 ```yaml
 services:
   officeplanner:
@@ -40,3 +41,4 @@ services:
       - ./data:/var/lib/postgresql/data
     shm_size: 512MB
 ```
+- `docker compose up -d`
