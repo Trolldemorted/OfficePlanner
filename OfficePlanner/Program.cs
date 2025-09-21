@@ -92,6 +92,7 @@ public class Program
 
         app.Use(async (context, next) =>
         {
+            context.Response.Headers["Vary"] = "HX-Request";
             await next(context);
             if (context.Response.Headers.ContainsKey(IsExternalRedirect) && context.Request.IsHtmx())
             {
