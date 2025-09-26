@@ -3,9 +3,8 @@ using Htmx.TagHelpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 using OfficePlanner.Database;
 using System.Security.Claims;
 
@@ -29,7 +28,14 @@ public class Program
             .AddCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                if (builder.Environment.IsProduction())
+                {
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                }
+                else
+                {
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                }
                 options.Cookie.SameSite = SameSiteMode.Lax;
             })
             .AddOpenIdConnect(options =>
@@ -79,17 +85,37 @@ public class Program
             options.KnownNetworks.Clear();
             options.KnownProxies.Clear();
         });
+        builder.Services.AddAntiforgery(options =>
+        {
+            options.SuppressXFrameOptionsHeader = true; // CSP frame-ancestors is defined, so we suppress X-Frame-Options
+            if (builder.Environment.IsProduction())
+            {
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            }
+            else
+            {
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+            }
+        });
 
         var app = builder.Build();
-        app.UseStaticFiles();
-        app.UseSwagger();
-        app.UseSwaggerUI();
         if (app.Environment.IsProduction())
         {
             app.UseForwardedHeaders();
             app.UseHttpsRedirection();
         }
-
+        app.Use(async (context, next) =>
+        {
+            context.Response.Headers.Append("Content-Security-Policy", new StringValues(
+                "default-src 'none'; script-src 'self' unpkg.com; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net; img-src 'self'; font-src 'self' cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'"));
+            context.Response.Headers.Append("Referrer-Policy", new StringValues("no-referrer"));
+            context.Response.Headers.Append("X-Content-Type-Options", new StringValues("nosniff"));
+            context.Response.Headers.Append("X-Permitted-Cross-Domain-Policies", new StringValues("none"));
+            await next(context);
+        });
+        app.UseStaticFiles();
+        app.UseSwagger();
+        app.UseSwaggerUI();
         app.Use(async (context, next) =>
         {
             context.Response.Headers["Vary"] = "HX-Request";
@@ -101,7 +127,6 @@ public class Program
                 context.Response.Headers.Remove("Location");
             }
         });
-
         app.UseRouting();
         app.UseAuthorization();
         app.MapHtmxAntiforgeryScript();
