@@ -5,6 +5,7 @@ COPY *.sln .
 COPY OfficePlanner/*.csproj ./OfficePlanner/
 
 RUN dotnet restore
+RUN cd OfficePlanner && dotnet restore
 
 COPY . .
 WORKDIR /app/OfficePlanner
