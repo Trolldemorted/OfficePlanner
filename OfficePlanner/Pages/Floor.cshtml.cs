@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using OfficePlanner.Database;
 using OfficePlanner.ViewModels;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
 namespace OfficePlanner.Pages;
@@ -79,17 +78,21 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
         try
         {
             XDocument xdoc = XDocument.Parse(floorFile);
-            var ns = xdoc.Root!.Name.Namespace;
-            var rectElements = xdoc.Descendants(ns + "rect");
-            foreach (var rect in rectElements)
+            foreach (var descendant in xdoc.Descendants())
             {
-                var desk = (string?)rect.Attribute("data-op-desk");
+                descendant.SetAttributeValue("style", null);
+                if (descendant.Name.LocalName != "rect")
+                {
+                    continue;
+                }
+
+                var desk = (string?)descendant.Attribute("data-op-desk");
                 if (desk == null)
                 {
                     continue;
                 }
 
-                var room = (string?)rect.Attribute("data-op-room");
+                var room = (string?)descendant.Attribute("data-op-room");
                 if (room == null)
                 {
                     continue;
@@ -112,8 +115,8 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
                 {
                     if (dbReservation.UserId == userId)
                     {
-                        rect.SetAttributeValue("fill", "lightgreen");
-                        rect.SetAttributeValue("data-hx-post", this.Url.Page("Floor", "FreeDesk", new
+                        descendant.SetAttributeValue("fill", "lightgreen");
+                        descendant.SetAttributeValue("data-hx-post", this.Url.Page("Floor", "FreeDesk", new
                         {
                             this.Location,
                             this.Building,
@@ -122,18 +125,18 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
                             Room = room,
                             Desk = desk,
                         }));
-                        rect.SetAttributeValue("data-hx-target", "#main");
+                        descendant.SetAttributeValue("data-hx-target", "#main");
                     }
                     else
                     {
-                        rect.SetAttributeValue("fill", "orange");
+                        descendant.SetAttributeValue("fill", "orange");
                     }
-                    rect.Add(new XElement("title", dbReservation.User!.Name));
+                    descendant.Add(new XElement("title", dbReservation.User!.Name));
                     continue;
                 }
 
-                rect.SetAttributeValue("fill", "lightgray");
-                rect.SetAttributeValue("data-hx-post", this.Url.Page("Floor", "BookDesk", new
+                descendant.SetAttributeValue("fill", "lightgray");
+                descendant.SetAttributeValue("data-hx-post", this.Url.Page("Floor", "BookDesk", new
                 {
                     this.Location,
                     this.Building,
@@ -142,7 +145,7 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
                     Room = room,
                     Desk = desk,
                 }));
-                rect.SetAttributeValue("data-hx-target", "#main");
+                descendant.SetAttributeValue("data-hx-target", "#main");
             }
             return xdoc.ToString(SaveOptions.DisableFormatting);
         }
