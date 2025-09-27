@@ -107,7 +107,7 @@ public class Program
         app.Use(async (context, next) =>
         {
             context.Response.Headers.Append("Content-Security-Policy", new StringValues(
-                "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'"));
+                "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'"));
             context.Response.Headers.Append("Referrer-Policy", new StringValues("no-referrer"));
             context.Response.Headers.Append("X-Content-Type-Options", new StringValues("nosniff"));
             context.Response.Headers.Append("X-Permitted-Cross-Domain-Policies", new StringValues("none"));
@@ -118,7 +118,7 @@ public class Program
         app.UseSwaggerUI();
         app.Use(async (context, next) =>
         {
-            context.Response.Headers["Vary"] = "HX-Request";
+            context.Response.Headers.Vary = "HX-Request";
             await next(context);
             if (context.Response.Headers.ContainsKey(IsExternalRedirect) && context.Request.IsHtmx())
             {

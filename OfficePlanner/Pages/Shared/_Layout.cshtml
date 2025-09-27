@@ -1,11 +1,11 @@
 ﻿@using Htmx.TagHelpers
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width">
     <meta name="htmx-config"
           historyCacheSize="20"
+          includeIndicatorStyles="false"
           indicatorClass="htmx-indicator"
           includeAspNetAntiforgeryToken="true" />
     <title>@(ViewBag.Title ?? "OfficePlanner")</title>
@@ -24,11 +24,9 @@
             <span class="align-middle">Office Planner</span>
         </a>
     </nav>
-
     <div id="main">
         @RenderBody()
     </div>
-
     <footer class="py-5 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white">Not proudly made by annoyed employees</p>
