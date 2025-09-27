@@ -399,8 +399,10 @@ FodyWeavers.xsd
 
 /data
 /data_keycloak
-/OfficePlanner/wwwroot/floors
 appsettings.Development.json
 /docker-compose.yml
 /appsettings.json
 /compose.yml
+/OfficePlanner/wwwroot/bootstrap-icons
+/OfficePlanner/wwwroot/bootstrap
+/OfficePlanner/wwwroot/htmx

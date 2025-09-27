@@ -6,6 +6,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <Target Name="DownloadContentFiles" BeforeTargets="Restore">
+    <DownloadFile SourceUrl="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" DestinationFolder="$(MSBuildProjectDirectory)/wwwroot/bootstrap/css/">
+      <Output TaskParameter="DownloadedFile" ItemName="Content" />
+    </DownloadFile>
+    <DownloadFile SourceUrl="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" DestinationFolder="$(MSBuildProjectDirectory)/wwwroot/bootstrap-icons/font/">
+      <Output TaskParameter="DownloadedFile" ItemName="Content" />
+    </DownloadFile>
+    <DownloadFile SourceUrl="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js" DestinationFolder="$(MSBuildProjectDirectory)/wwwroot/htmx/">
+      <Output TaskParameter="DownloadedFile" ItemName="Content" />
+    </DownloadFile>
+  </Target>
+
   <ItemGroup>
     <PackageReference Include="Htmx" Version="1.8.3" />
     <PackageReference Include="Htmx.TagHelpers" Version="1.8.3" />

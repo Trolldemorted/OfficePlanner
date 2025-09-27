@@ -4,6 +4,8 @@
 .env
 .git
 .gitignore
+*.md
+/LICENSE
 .vs
 .vscode
 Dockerfile
@@ -14,7 +16,10 @@ docker-compose.*.yml
 /README.md
 /data
 /data_keycloak
-/OfficePlanner/wwwroot/floors
 /appsettings.json
+/appsettings.Development.json
 compose.yml
 compose.*.yml
+/OfficePlanner/wwwroot/bootstrap-icons
+/OfficePlanner/wwwroot/bootstrap
+/OfficePlanner/wwwroot/htmx

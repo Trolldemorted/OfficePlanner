@@ -107,7 +107,7 @@ public class Program
         app.Use(async (context, next) =>
         {
             context.Response.Headers.Append("Content-Security-Policy", new StringValues(
-                "default-src 'none'; script-src 'self' unpkg.com; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net; img-src 'self'; font-src 'self' cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'"));
+                "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'"));
             context.Response.Headers.Append("Referrer-Policy", new StringValues("no-referrer"));
             context.Response.Headers.Append("X-Content-Type-Options", new StringValues("nosniff"));
             context.Response.Headers.Append("X-Permitted-Cross-Domain-Policies", new StringValues("none"));
