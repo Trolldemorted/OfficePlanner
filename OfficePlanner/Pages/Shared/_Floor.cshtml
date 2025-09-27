@@ -21,7 +21,7 @@
         </h1>
         <div class="op-floor">
             <div>
-                <div style="display: flex; justify-content: center">
+                <div class="op-datepicker">
                     <a data-hx-get="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.BuildingLowercaseName, Floor=Model.Floor.LowercaseName, Day=Model.Day.GetPreviousWorkingDay()})"
                         href="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.BuildingLowercaseName, Floor=Model.Floor.LowercaseName, Day=Model.Day.GetPreviousWorkingDay() })"
                         data-hx-target="#main">

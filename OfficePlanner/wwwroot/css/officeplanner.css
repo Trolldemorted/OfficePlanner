@@ -45,6 +45,11 @@ body {
     background-color: #90EE90;
 }
 
+.op-datepicker {
+    display: flex;
+    justify-content: center;
+}
+
 .htmx-indicator {
     opacity: 0
 }
