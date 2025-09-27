@@ -40,7 +40,7 @@ public class BuildingModel(OfficePlannerDatabase db, ILogger<BuildingModel> logg
 
             using var fileStream = floorPlanFile.OpenReadStream();
             byte[] floorPlanBuffer = new byte[floorPlanFile.Length];
-            await fileStream.ReadAsync(floorPlanBuffer.AsMemory(0, (int)floorPlanFile.Length), this.HttpContext.RequestAborted);
+            await fileStream.ReadExactlyAsync(floorPlanBuffer.AsMemory(0, (int)floorPlanFile.Length), this.HttpContext.RequestAborted);
 
             var rooms = new Dictionary<string, Room>();
             string floorPlan;
