@@ -1,0 +1,47 @@
+name: ci
+on: [push]
+concurrency:
+  group: ${{ github.workflow }}
+
+jobs:
+  build-dotnet:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        sdk: ['9.0.x']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ matrix.sdk }}
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore -warnaserror
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+  build-docker:
+    needs: [build-dotnet]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build container iamge
+        run: |
+          docker build . -t officeplanner
+      - name: Publish nightly docker image
+        if: github.ref_type == "tag" || github.ref == 'refs/heads/master'
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker tag officeplanner ghcr.io/trolldemorted/officeplanner/officeplanner:nightly
+          docker push ghcr.io/trolldemorted/officeplanner/officeplanner:nightly
+      - name: Publish release docker image
+        if: github.ref_type == "tag"
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker tag officeplanner ghcr.io/trolldemorted/officeplanner/officeplanner:${{ github.ref_name }}
+          docker push ghcr.io/trolldemorted/officeplanner/officeplanner:${{ github.ref_name }}
