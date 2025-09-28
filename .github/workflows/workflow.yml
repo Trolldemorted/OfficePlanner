@@ -34,13 +34,13 @@ jobs:
         run: |
           docker build . -t officeplanner
       - name: Publish nightly docker image
-        if: github.ref_type == "tag" || github.ref == 'refs/heads/master'
+        if: github.ref_type == 'tag' || github.ref == 'refs/heads/master'
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker tag officeplanner ghcr.io/trolldemorted/officeplanner/officeplanner:nightly
           docker push ghcr.io/trolldemorted/officeplanner/officeplanner:nightly
       - name: Publish release docker image
-        if: github.ref_type == "tag"
+        if: github.ref_type == 'tag'
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker tag officeplanner ghcr.io/trolldemorted/officeplanner/officeplanner:${{ github.ref_name }}
