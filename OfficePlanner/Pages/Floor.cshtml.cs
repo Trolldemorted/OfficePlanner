@@ -37,15 +37,21 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
     {
         if (Util.GetUserId(this.HttpContext) is long userId)
         {
-            await db.UpsertReservation(
-                this.Location,
-                this.Building,
-                this.Floor,
-                room,
-                reservationDay,
-                desk,
-                userId,
-                this.HttpContext.RequestAborted);
+            try
+            {
+                await db.UpsertReservation(
+                    this.Location,
+                    this.Building,
+                    this.Floor,
+                    room,
+                    reservationDay,
+                    desk,
+                    userId,
+                    this.HttpContext.RequestAborted);
+            }
+            catch (Exception)
+            {
+            }
         }
         return Partial("_Floor", await this.GetViewModel(reservationDay));
     }
@@ -54,15 +60,21 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
     {
         if (Util.GetUserId(this.HttpContext) is long userId)
         {
-            await db.DeleteReservation(
-                this.Location,
-                this.Building,
-                this.Floor,
-                room,
-                reservationDay,
-                desk,
-                userId,
-                this.HttpContext.RequestAborted);
+            try
+            {
+                await db.DeleteReservation(
+                    this.Location,
+                    this.Building,
+                    this.Floor,
+                    room,
+                    reservationDay,
+                    desk,
+                    userId,
+                    this.HttpContext.RequestAborted);
+            }
+            catch (Exception)
+            {
+            }
         }
         return Partial("_Floor", await this.GetViewModel(reservationDay));
     }
