@@ -45,3 +45,5 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker tag officeplanner ghcr.io/trolldemorted/officeplanner/officeplanner:${{ github.ref_name }}
           docker push ghcr.io/trolldemorted/officeplanner/officeplanner:${{ github.ref_name }}
+          docker tag officeplanner ghcr.io/trolldemorted/officeplanner/officeplanner:latest
+          docker push ghcr.io/trolldemorted/officeplanner/officeplanner:latest
