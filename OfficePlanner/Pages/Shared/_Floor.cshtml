@@ -8,15 +8,15 @@
     @if (Model.Floor is not null)
     {
         <h1>
-            <a hx-get="@Url.Page("Location", new { Location = Model.LocationLowercaseName })"
+            <a data-hx-get="@Url.Page("Location", new { Location = Model.LocationLowercaseName })"
                    href="@Url.Page("Location", new { Location = Model.LocationLowercaseName })"
-                   hx-target="#main"
-                   hx-push-url="true">@Model.LocationName</a>
+                   data-hx-target="#main"
+                   data-hx-push-url="true">@Model.LocationName</a>
             >
-            <a hx-get="@Url.Page("Building", new { Location = Model.LocationLowercaseName, Building = Model.BuildingLowercaseName })"
+            <a data-hx-get="@Url.Page("Building", new { Location = Model.LocationLowercaseName, Building = Model.BuildingLowercaseName })"
                    href="@Url.Page("Building", new { Location = Model.LocationLowercaseName, Building = Model.BuildingLowercaseName })"
-                   hx-target="#main"
-                   hx-push-url="true">@Model.BuildingName</a>
+                   data-hx-target="#main"
+                   data-hx-push-url="true">@Model.BuildingName</a>
             > Floor @Model.Floor.Name
         </h1>
         <div class="op-floor">

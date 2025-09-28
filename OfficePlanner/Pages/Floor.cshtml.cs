@@ -81,6 +81,7 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
             foreach (var descendant in xdoc.Descendants())
             {
                 descendant.SetAttributeValue("style", null);
+                descendant.SetAttributeValue("class", null);
                 if (descendant.Name.LocalName != "rect")
                 {
                     continue;
@@ -116,6 +117,7 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
                     if (dbReservation.UserId == userId)
                     {
                         descendant.SetAttributeValue("fill", "lightgreen");
+                        descendant.SetAttributeValue("class", "op-reserved");
                         descendant.SetAttributeValue("data-hx-post", this.Url.Page("Floor", "FreeDesk", new
                         {
                             this.Location,
@@ -130,11 +132,13 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
                     else
                     {
                         descendant.SetAttributeValue("fill", "orange");
+                        descendant.SetAttributeValue("class", "op-unavailable");
                     }
                     descendant.Add(new XElement("title", dbReservation.User!.Name));
                     continue;
                 }
 
+                descendant.SetAttributeValue("class", "op-available");
                 descendant.SetAttributeValue("fill", "lightgray");
                 descendant.SetAttributeValue("data-hx-post", this.Url.Page("Floor", "BookDesk", new
                 {

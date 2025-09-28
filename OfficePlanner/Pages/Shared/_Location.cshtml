@@ -25,10 +25,10 @@
             <h2>Buildings</h2>
             @foreach (var building in Model.Location.Buildings!)
             {
-                <a hx-get="@Url.Page("Building", new { Location = Model.Location.LowercaseName, Building = building.LowercaseName })"
+                <a data-hx-get="@Url.Page("Building", new { Location = Model.Location.LowercaseName, Building = building.LowercaseName })"
                    href="@Url.Page("Building", new { Location = Model.Location.LowercaseName, Building = building.LowercaseName })"
-                   hx-target="#main"
-                   hx-push-url="true">
+                   data-hx-target="#main"
+                   data-hx-push-url="true">
                     @building.Name
                 </a>
                 <br />
@@ -43,8 +43,8 @@
 
                     <div class="card-body">
                         <div class="section">
-                            <form hx-post="@Url.Page("Location", "CreateBuilding", new { NewBuildingName=Model.NewBuildingName })"
-                                  hx-target="#main"
+                            <form data-hx-post="@Url.Page("Location", "CreateBuilding", new { NewBuildingName=Model.NewBuildingName })"
+                                  data-hx-target="#main"
                                   class="form-horizontal needs-validation"
                                   _="on htmx:beforeSend set #submitButton.disabled to 'disabled'">
 

@@ -5,18 +5,18 @@
         @if (Model.Building != null)
         {
             <h1>
-                <a hx-get="@Url.Page("Location", new { Location = Model.LocationLowercaseName })"
+                <a data-hx-get="@Url.Page("Location", new { Location = Model.LocationLowercaseName })"
                    href="@Url.Page("Location", new { Location = Model.LocationLowercaseName })"
-                   hx-target="#main"
-                   hx-push-url="true">@Model.LocationName</a>
+                   data-hx-target="#main"
+                   data-hx-push-url="true">@Model.LocationName</a>
                 >
                 @Model.Building.Name
             </h1>
             @if (Model.IsAdmin)
             {
-                <button hx-post="@Url.Page("Location", "DeleteBuilding", new { Location=Model.LocationLowercaseName, Building=Model.Building!.LowercaseName })"
-                    hx-target="#main"
-                    hx-replace-url="@Url.Page("Location", new { Location=Model.LocationLowercaseName })">
+                <button data-hx-post="@Url.Page("Location", "DeleteBuilding", new { Location=Model.LocationLowercaseName, Building=Model.Building!.LowercaseName })"
+                    data-hx-target="#main"
+                    data-hx-replace-url="@Url.Page("Location", new { Location=Model.LocationLowercaseName })">
                     Delete Building
                 </button>
                 <br />
@@ -25,10 +25,10 @@
             <h2>Floors</h2>
             @foreach (var floor in Model.Building.Floors)
             {
-                <a hx-get="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.Building.LowercaseName, Floor=floor.LowercaseName })"
+                <a data-hx-get="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.Building.LowercaseName, Floor=floor.LowercaseName })"
                    href="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.Building.LowercaseName, Floor=floor.LowercaseName })"
-                   hx-target="#main"
-                   hx-push-url="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.Building.LowercaseName, Floor=floor.LowercaseName })">
+                   data-hx-target="#main"
+                   data-hx-push-url="@Url.Page("Floor", new { Location=Model.LocationLowercaseName, Building=Model.Building.LowercaseName, Floor=floor.LowercaseName })">
                     Floor @floor.Name
                 </a>
                 <br />
@@ -46,7 +46,7 @@
                                 Location=Model.LocationLowercaseName,
                                 Building=Model.Building.LowercaseName,
                             })"
-                                  hx-target="#main"
+                                  data-hx-target="#main"
                                   class="form-horizontal needs-validation"
                                   _="on htmx:beforeSend set #submitButton.disabled to 'disabled'">
 

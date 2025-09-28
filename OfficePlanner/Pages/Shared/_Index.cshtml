@@ -24,10 +24,10 @@
             <h2>Locations</h2>
             @foreach (var item in Model.Locations)
             {
-                <a hx-get="@Url.Page("Location", new { Location = item.Name })"
+                <a data-hx-get="@Url.Page("Location", new { Location = item.Name })"
                    href="@Url.Page("Location", new { Location = item.Name })"
-                   hx-target="#main"
-                   hx-push-url="true">
+                   data-hx-target="#main"
+                   data-hx-push-url="true">
                     @item.Name
                 </a>
                 <br />
