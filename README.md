@@ -54,3 +54,12 @@ The svg is rendered in-tree, so exports from program's like Inkscape might need 
 ## Security
 The floor plan svgs are rendered in-tree.
 Do not upload floor plans from untrusted sources.
+
+## Development
+OfficePlanner depends on an external OpenID provider. Configure it in `./OfficePlanner/appsettings.Development.json`.
+
+If you want to develop OfficePlanner locally, use [`compose.pg.yml`](./compose.pg.yml) to start a postgres in Docker.
+
+If you want to develop OfficePlanner in a container, use [`compose.dev.yml`](./compose.dev.yml) to start OfficePlanner and a postgres in Docker.
+Start it with `sudo docker compose up --build --watch` and it will hot-reload your changes.
+**If you don't use sudo and your user does not have privileges to access the root-owned `./data` folder, docker compose will freeze and not start your container**.

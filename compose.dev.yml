@@ -1,22 +1,24 @@
 services:
+  officeplanner:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    volumes:
+      - "./data/officeplanner:/root/.aspnet"
+    ports:
+      - "8080:8080"
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
   postgres:
     image: postgres:17
     restart: unless-stopped
     environment:
       POSTGRES_USER: docker
       POSTGRES_PASSWORD: docker
-    ports:
-    - "127.0.0.1:5432:5432"
     volumes:
-    - ./data/postgres:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
     shm_size: 512MB
-  keycloak:
-    image: quay.io/keycloak/keycloak:24.0.4
-    environment:
-    - KEYCLOAK_ADMIN=admin
-    - KEYCLOAK_ADMIN_PASSWORD=admin
-    ports:
-    - "127.0.0.1:8000:8080"
-    volumes:
-    - ./data/keycloak:/opt/keycloak/data/h2/
-    command: start-dev

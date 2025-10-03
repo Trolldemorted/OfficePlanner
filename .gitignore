@@ -397,9 +397,9 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-/data
-/data_keycloak
 appsettings.Development.json
+
+/data
 /docker-compose.yml
 /appsettings.json
 /compose.yml
