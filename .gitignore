@@ -398,10 +398,10 @@ FodyWeavers.xsd
 *.sln.iml
 
 appsettings.Development.json
+appsettings.json
 
 /data
 /docker-compose.yml
-/appsettings.json
 /compose.yml
 /OfficePlanner/wwwroot/bootstrap-icons
 /OfficePlanner/wwwroot/bootstrap

@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile.dev
     restart: unless-stopped
     volumes:
+      - "./OfficePlanner/appsettings.json:/app/OfficePlanner/appsettings.json:ro"
       - "./data/officeplanner:/root/.aspnet"
     ports:
       - "8080:8080"

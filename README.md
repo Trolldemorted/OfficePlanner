@@ -56,10 +56,11 @@ The floor plan svgs are rendered in-tree.
 Do not upload floor plans from untrusted sources.
 
 ## Development
-OfficePlanner depends on an external OpenID provider. Configure it in `./OfficePlanner/appsettings.Development.json`.
+Create `appsettings.json` as shown above in `./OfficePlanner/`.
 
-If you want to develop OfficePlanner locally, use [`compose.pg.yml`](./compose.pg.yml) to start a postgres in Docker.
+If you want to develop OfficePlanner locally, use [`compose.pg.yml`](./compose.pg.yml) to start postgres in Docker.
+In `./OfficePlanner/appsettings.json`, set `DbConnectionString` to `"Host=127.0.0.1;Database=OfficePlanner;Username=docker;Password=docker"`.
 
-If you want to develop OfficePlanner in a container, use [`compose.dev.yml`](./compose.dev.yml) to start OfficePlanner and a postgres in Docker.
+If you want to develop OfficePlanner in a container, use [`compose.dev.yml`](./compose.dev.yml) to start OfficePlanner and postgres in Docker.
 Start it with `sudo docker compose up --build --watch` and it will hot-reload your changes.
-**If you don't use sudo and your user does not have privileges to access the root-owned `./data` folder, docker compose will freeze and not start your container**.
+**If you don't use sudo and your user does not have privileges to access `./data/`, [docker compose v2.39.4 will freeze and not start your container](https://github.com/docker/compose/issues/13262)**.

@@ -8,6 +8,9 @@
 */bin
 */obj
 
+*/appsettings.json
+*/appsettings.*.json
+
 /.config
 /.github
 /LICENSE
@@ -19,8 +22,6 @@
 /compose.*.yml
 /README.md
 /data
-/appsettings.json
-/appsettings.*.json
 /OfficePlanner/wwwroot/bootstrap-icons
 /OfficePlanner/wwwroot/bootstrap
 /OfficePlanner/wwwroot/htmx
