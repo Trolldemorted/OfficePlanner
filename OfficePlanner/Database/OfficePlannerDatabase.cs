@@ -166,11 +166,11 @@ public class OfficePlannerDatabase(OPDbContext dbContext, ILogger<OfficePlannerD
     public async Task<Reservation?> UpsertReservation(string location, string building, string name, string room, DateOnly day, string desk, long userId, CancellationToken token)
     {
         var dbDesk = await this.dbContext.Desks
-            .Where(e => e.LowercaseName == desk)
-            .Where(e => e.Room!.LowercaseName == room)
-            .Where(e => e.Room!.Floor!.LowercaseName == name)
-            .Where(e => e.Room!.Floor!.Building!.LowercaseName == building)
-            .Where(e => e.Room!.Floor!.Building!.Location!.LowercaseName == location)
+            .Where(e => e.LowercaseName == desk.ToLower())
+            .Where(e => e.Room!.LowercaseName == room.ToLower())
+            .Where(e => e.Room!.Floor!.LowercaseName == name.ToLower())
+            .Where(e => e.Room!.Floor!.Building!.LowercaseName == building.ToLower())
+            .Where(e => e.Room!.Floor!.Building!.Location!.LowercaseName == location.ToLower())
             .SingleOrDefaultAsync(token);
 
         if (dbDesk == null)
@@ -193,11 +193,11 @@ public class OfficePlannerDatabase(OPDbContext dbContext, ILogger<OfficePlannerD
     {
         await this.dbContext.Reservations
             .Where(e => e.Day == day)
-            .Where(e => e.Desk!.LowercaseName == desk)
-            .Where(e => e.Desk!.Room!.LowercaseName == room)
-            .Where(e => e.Desk!.Room!.Floor!.LowercaseName == name)
-            .Where(e => e.Desk!.Room!.Floor!.Building!.LowercaseName == building)
-            .Where(e => e.Desk!.Room!.Floor!.Building!.Location!.LowercaseName == location)
+            .Where(e => e.Desk!.LowercaseName == desk.ToLower())
+            .Where(e => e.Desk!.Room!.LowercaseName == room.ToLower())
+            .Where(e => e.Desk!.Room!.Floor!.LowercaseName == name.ToLower())
+            .Where(e => e.Desk!.Room!.Floor!.Building!.LowercaseName == building.ToLower())
+            .Where(e => e.Desk!.Room!.Floor!.Building!.Location!.LowercaseName == location.ToLower())
             .Where(e => e.UserId == userId)
             .ExecuteDeleteAsync(token);
     }
