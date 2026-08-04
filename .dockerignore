@@ -8,9 +8,8 @@
 */bin
 */obj
 
-*/appsettings.json
-*/appsettings.*.json
-
+**/appsettings.json
+**/appsettings.*.json
 /.config
 /.github
 /LICENSE

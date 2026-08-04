@@ -9,7 +9,7 @@ using System.Text;
 namespace OfficePlanner.Controllers;
 
 [Route("api/[controller]/[action]")]
-public class AdminController(OfficePlannerDatabase db, OPConfig config) : Controller
+public class AdminController(OfficePlannerDatabase db, OPConfig config, ILogger<AdminController> logger) : Controller
 {
     [HttpPost]
     public async Task<IActionResult> SetAdmin(string adminPassword, bool isAdmin)
@@ -17,6 +17,7 @@ public class AdminController(OfficePlannerDatabase db, OPConfig config) : Contro
         var userId = Util.GetUserId(this.HttpContext);
         if (userId is null)
         {
+            logger.LogDebug("SetAdmin failed (userId is null)");
             return this.BadRequest();
         }
         if (CryptographicOperations.FixedTimeEquals(Encoding.Unicode.GetBytes(adminPassword), Encoding.Unicode.GetBytes(config.AdminPassword)))

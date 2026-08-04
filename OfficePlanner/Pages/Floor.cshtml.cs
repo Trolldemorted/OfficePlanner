@@ -102,12 +102,15 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
                 var desk = (string?)descendant.Attribute("data-op-desk");
                 if (desk == null)
                 {
+                    logger.LogWarning("no desk");
                     continue;
                 }
+                desk = desk.ToLower();
 
                 var room = (string?)descendant.Attribute("data-op-room");
                 if (room == null)
                 {
+                    logger.LogWarning("no room");
                     continue;
                 }
 
@@ -118,6 +121,7 @@ public class FloorModel(OfficePlannerDatabase db, ILogger<FloorModel> logger) : 
 
                 if (dbDesk == null)
                 {
+                    logger.LogWarning("no db desk");
                     continue;
                 }
 
